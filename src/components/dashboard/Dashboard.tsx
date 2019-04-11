@@ -56,7 +56,7 @@ export function Dashboard(): React.ReactElement {
     function getStatusIcon() {
         switch (global.getStatus()) {
             case "success":
-                return "✅";
+                return "😀";
             case "warning":
                 return "⚠️";
             case "error":
