@@ -1,14 +1,39 @@
+@import "helpers.css";
+
+:root {
+    --red: #db2b39;
+    --red-text: white;
+
+    --blue: #29335c;
+    --blue-text: white;
+
+    --yellow: #f3a712;
+    --yellow-text: white;
+
+    --green: #87E268;
+    --green-text: white;
+
+    --dark: #383f51;
+    --dark-text: var(--light);
+
+    --light: #dddbf1;
+    --light-text: var(--dark);
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background: var(--dark);
+    color: var(--dark-text);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

@@ -6,7 +6,13 @@ export type BuildStatus =
     | 'timedout'
     | 'not_run'
     | 'running'
-    | 'failed';
+    | 'failed'
+    | 'queued'
+    | 'scheduled'
+    | 'not_running'
+    | 'no_tests'
+    | 'fixed'
+    | 'success';
 export type BuildFilter = 'completed' | 'successful' | 'failed' | 'running';
 
 export interface BuildDetails {

@@ -1,0 +1,61 @@
+
+.circleci-failing-builds {
+
+}
+
+.circleci-failing-builds__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.circleci-failing-builds__list li {
+    padding: 0.3em 0.2em;
+    display: flex;
+    flex-direction: row;
+}
+
+.circleci-failing-builds__list__buildnum {
+    flex: 0 0 auto;
+    align-self: center;
+
+    width: 70px;
+    margin-right: 0.5em;
+    padding: 0.3em 0.2em;
+    text-align: center;
+    font-weight: 700;
+    border-radius: 3px;
+
+    color: var(--blue-text);
+    background: var(--blue);
+}
+.circleci-failing-builds__list__buildnum.failed {
+    color: var(--red-text);
+    background: var(--red);
+}
+.circleci-failing-builds__list__buildnum.pending {
+    color: var(--yellow-text);
+    background: var(--yellow);
+}
+.circleci-failing-builds__list__buildnum.success {
+    color: var(--green-text);
+    background: var(--green);
+}
+
+.circleci-failing-builds__list__build-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.circleci-failing-builds__list__build-responsible {
+    line-height: 40px;
+    display: inline-block;
+    font-size: 1.5em;
+    font-variant: all-small-caps;
+    color: var(--blue);
+}
+.circleci-failing-builds__list__build-responsible .unknown {
+    display: inline-block;
+    margin-top: -10px;
+    font-size: 0.6em;
+}

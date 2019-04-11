@@ -14,16 +14,31 @@ class DefaultCircleAPI implements CircleAPI {
 
     public getProjectBuilds(user: string, project: string, filter?: BuildFilter): Promise<BuildDetails[]> {
         const endpoint = `/project/github/${user}/${project}`;
-        return this.getApi(endpoint);
+        const params: Record<string, any> = {};
+        if (filter) {
+            params['filter'] = filter;
+        }
+        return this.getApi(endpoint, params);
     }
 
     public async getProjectBranchBuilds(user: string, project: string, branch: string, filter?: BuildFilter): Promise<BuildDetails[]> {
         const endpoint = `/project/github/${user}/${project}/tree/${branch}`;
-        return this.getApi(endpoint);
+        const params: Record<string, any> = {};
+        if (filter) {
+            params['filter'] = filter;
+        }
+        return this.getApi(endpoint, params);
     }
 
-    private async getApi(endpoint: string, data?: RequestInit): Promise<any> {
+    private async getApi(endpoint: string, queryParams?: Record<string, any>): Promise<any> {
         const url = new URL(DefaultCircleAPI.getUrl(endpoint));
+
+        if (queryParams) {
+            Object.keys(queryParams).forEach(k => {
+                url.searchParams.append(k, queryParams[k]);
+            });
+        }
+
         if (this.token) {
             url.searchParams.append('circle-token', this.token);
         } else {
@@ -31,7 +46,7 @@ class DefaultCircleAPI implements CircleAPI {
         }
 
         console.debug('[CircleAPI] Fetching request:', url);
-        const response = await fetch(url.toString(), data);
+        const response = await fetch(url.toString());
         console.debug('[CircleAPI] Got response:', response);
 
         if (!response.ok) {
