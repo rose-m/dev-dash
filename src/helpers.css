@@ -9,3 +9,7 @@
     color: var(--yellow-text);
     background: var(--yellow);
 }
+.alert.alert-error {
+    color: var(--red-text);
+    background: var(--red);
+}

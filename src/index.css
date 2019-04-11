@@ -33,6 +33,34 @@ body {
     color: var(--dark-text);
 }
 
+button {
+    font-size: 100%;
+    font-family: inherit;
+    margin: 0;
+    text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-appearance: button;
+}
+
+input, textarea {
+    padding: 0.4em;
+    font-size: 0.9em;
+    font-family: inherit;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+    min-width: 500px;
+}
+textarea {
+    min-height: 5em;
+}
+input:focus, textarea:focus {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+    outline: none;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

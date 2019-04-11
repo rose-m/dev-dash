@@ -28,7 +28,7 @@
 }
 
 .app-dashboard__integrations > * {
-    flex: 0 1 500px;
+    flex: 1 1 500px;
     align-self: flex-start;
     margin: 1em;
     padding: 1em;
@@ -60,4 +60,29 @@
 .app-dashboard__integrations a:hover {
     border-bottom-style: dashed;
     background: rgba(0, 0, 0, 0.1);
+}
+
+.app-dashboard__footer {
+    height: 3em;
+    padding: 0 1em;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.app-dashboard__footer button {
+    color: var(--light-text);
+    background: var(--light);
+    font-size: 0.8em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    border: none;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+.app-dashboard__footer button:hover {
+    color: var(--blue-text);
+    background: var(--blue);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }

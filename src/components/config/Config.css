@@ -1,0 +1,19 @@
+.dashboard-config {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    color: var(--light-text);
+    background: var(--light);
+
+    padding: 0 2em 2em;
+}
+
+.dashboard-config__close {
+    float: right;
+    margin-top: -0.4em;
+    font-size: 2em;
+    cursor: pointer;
+}
