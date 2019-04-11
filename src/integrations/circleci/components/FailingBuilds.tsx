@@ -4,6 +4,7 @@ import {Circle} from "../context";
 import {BuildDetails} from "../api";
 
 import './FailingBuilds.css';
+import {Global} from "../../../global";
 
 export interface CircleFailingBuildsProps {
     username: string;
@@ -13,6 +14,7 @@ export interface CircleFailingBuildsProps {
 
 export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.ReactElement {
     const api = useContext(Circle);
+    const global = useContext(Global);
     const [builds, setBuilds] = useState<BuildDetails[]>([]);
     const [lastUpdated, setLastUpdated] = useState<Date | undefined>(undefined);
     const [error, setError] = useState(false);
@@ -33,6 +35,7 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
             setTimeout(() => {
                 fetchData().then(() => {
                     setError(false);
+                    global.setStatus('circleci', 'error');
                 }).catch(() => {
                     setError(true);
                 }).finally(() => {
@@ -44,6 +47,16 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
 
     const failedBuilds = builds.filter(b => isFailedBuild(b));
     const successBuilds = builds.length - failedBuilds.length;
+
+    if (failedBuilds.length === 0) {
+        global.setStatus('circleci', 'success');
+    } else {
+        if (!failedBuilds.filter(b => getBuildStatus(b) !== 'pending').length) {
+            global.setStatus('circleci', 'warning');
+        } else {
+            global.setStatus('circleci', 'error');
+        }
+    }
 
     let failedBuildsView = null;
     if (failedBuilds.length) {
