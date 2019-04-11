@@ -23,10 +23,13 @@
 .app-dashboard__integrations {
     display: flex;
     flex: 1 1 auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .app-dashboard__integrations > * {
-    flex: 1 1 auto;
+    flex: 0 1 500px;
+    align-self: flex-start;
     margin: 1em;
     padding: 1em;
 

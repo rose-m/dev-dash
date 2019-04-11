@@ -35,7 +35,6 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
             setTimeout(() => {
                 fetchData().then(() => {
                     setError(false);
-                    global.setStatus('circleci', 'error');
                 }).catch(() => {
                     setError(true);
                 }).finally(() => {
@@ -45,18 +44,21 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
         }
     }, [api]);
 
+    useEffect(() => {
+        const failedBuilds = builds.filter(b => isFailedBuild(b));
+        if (failedBuilds.length === 0) {
+            global.setStatus(getIntegrationKey(), 'success');
+        } else {
+            if (!failedBuilds.filter(b => getBuildStatus(b) !== 'pending').length) {
+                global.setStatus(getIntegrationKey(), 'warning');
+            } else {
+                global.setStatus(getIntegrationKey(), 'error');
+            }
+        }
+    }, [builds]);
+
     const failedBuilds = builds.filter(b => isFailedBuild(b));
     const successBuilds = builds.length - failedBuilds.length;
-
-    if (failedBuilds.length === 0) {
-        global.setStatus('circleci', 'success');
-    } else {
-        if (!failedBuilds.filter(b => getBuildStatus(b) !== 'pending').length) {
-            global.setStatus('circleci', 'warning');
-        } else {
-            global.setStatus('circleci', 'error');
-        }
-    }
 
     let failedBuildsView = null;
     if (failedBuilds.length) {
@@ -181,5 +183,9 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
         return b.status === 'failed'
             || b.status === 'infrastructure_fail'
             || b.status === 'timedout';
+    }
+
+    function getIntegrationKey() {
+        return `circleci-${props.username}-${props.project}`;
     }
 }

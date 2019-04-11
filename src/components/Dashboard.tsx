@@ -21,7 +21,14 @@ export function Dashboard(): React.ReactElement {
 
             <div className={'app-dashboard__integrations'}>
                 <CircleFailingBuilds username={'collaborationFactory'}
-                                     project={'cplace'}/>
+                                     project={'cplace'}
+                                     matcher={'master|(release/)'}/>
+                <CircleFailingBuilds username={'collaborationFactory'}
+                                     project={'cplace-workflow'}
+                                     matcher={'master|(release/)'}/>
+                <CircleFailingBuilds username={'collaborationFactory'}
+                                     project={'cplace-board'}
+                                     matcher={'master|(release/)'}/>
             </div>
         </div>
     );
