@@ -14,10 +14,32 @@ export interface CircleFailingBuildsProps {
 export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.ReactElement {
     const api = useContext(Circle);
     const [builds, setBuilds] = useState<BuildDetails[]>([]);
+    const [lastUpdated, setLastUpdated] = useState<Date | undefined>(undefined);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        let running: Promise<void> | null = fetchData().finally(() => running = null);
+        let timeout: number | null = null;
+        startTimeout();
+        return () => {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+        };
 
+        function startTimeout(t = 0) {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            setTimeout(() => {
+                fetchData().then(() => {
+                    setError(false);
+                }).catch(() => {
+                    setError(true);
+                }).finally(() => {
+                    startTimeout(10000);
+                });
+            }, t);
+        }
     }, [api]);
 
     const failedBuilds = builds.filter(b => isFailedBuild(b));
@@ -52,15 +74,26 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
 
     return (
         <div className={'circleci-failing-builds'}>
-            <h1>Builds for {props.username}/{props.project}</h1>
+            <h3>Builds for {props.username}/{props.project}</h3>
+            <div className={'circleci-failing-builds__lastupdate'}>
+                Last updated: {getDateString(lastUpdated)}
+            </div>
 
-            {builds.length > 0 ? [
-                failedBuildsView,
-                <hr/>,
-                <p>
-                    ✅ Tracking further {successBuilds} builds.
+            {error && (
+                <p className={'alert alert-warning'}>
+                    Failed to update status from CircleCI.
                 </p>
-            ] : (
+            )}
+
+            {builds.length > 0 ? (
+                <>
+                    {failedBuildsView}
+                    <hr/>
+                    <p>
+                        ✅ Tracking further {successBuilds} builds.
+                    </p>
+                </>
+            ) : (
                 <p>No builds...</p>
             )}
         </div>
@@ -86,9 +119,23 @@ export function CircleFailingBuilds(props: CircleFailingBuildsProps): React.Reac
             });
 
             setBuilds(result);
+            setLastUpdated(new Date());
         } catch (e) {
             console.error('failed to get CircleAPI data', e);
+            throw e;
         }
+    }
+
+    function getDateString(d?: Date) {
+        if (!d) {
+            return 'never';
+        }
+        return `${d.getFullYear()}-${twoDigits(d.getMonth())}-${twoDigits(d.getDay())}`
+            + ` ${twoDigits(d.getHours())}:${twoDigits(d.getMinutes())}:${twoDigits(d.getSeconds())}`;
+    }
+
+    function twoDigits(num: number) {
+        return num.toString().padStart(2, '0');
     }
 
     function getBuildStatus(b: BuildDetails) {

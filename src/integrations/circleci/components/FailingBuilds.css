@@ -1,6 +1,11 @@
 
-.circleci-failing-builds {
+.circleci-failing-builds > h3 {
+    margin: 0;
+}
 
+.circleci-failing-builds__lastupdate {
+    font-variant: all-small-caps;
+    margin-bottom: 1.5em;
 }
 
 .circleci-failing-builds__list {
